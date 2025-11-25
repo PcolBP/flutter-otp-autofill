@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:otp_autofill/otp_autofill.dart';
 import 'package:otp_autofill/src/util/platform_wrapper.dart';
-import 'package:surf_lint_rules/surf_lint_rules.dart';
 
 const testCode = '54321';
 const codeFromTestStrategyFirst = '23451';
@@ -64,8 +65,8 @@ void main() {
         codeOnCodeReceive = code;
       },
       platform: platformWrapper,
-      onTimeOutException: onTimeOutException,
-      errorHandler: onException,
+      onTimeOutException: onTimeOutException.call,
+      errorHandler: onException.call,
     );
   });
 
