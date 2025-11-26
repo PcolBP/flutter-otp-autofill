@@ -16,11 +16,11 @@ class SmsRetrieverReceiver : BroadcastReceiver() {
         if (intent?.action == SmsRetriever.SMS_RETRIEVED_ACTION) {
 
             val extras = intent.extras
-            val smsRetrieverStatus = extras?.get(SmsRetriever.EXTRA_STATUS) as Status
+            val smsRetrieverStatus = extras?.get(SmsRetriever.EXTRA_STATUS) as? Status ?: return
 
             when (smsRetrieverStatus.statusCode) {
                 CommonStatusCodes.SUCCESS -> {
-                    extras.get(SmsRetriever.EXTRA_SMS_MESSAGE)?.also {
+                    extras?.get(SmsRetriever.EXTRA_SMS_MESSAGE)?.also {
                         smsBroadcastReceiverListener.onSuccess(it as String)
                     }
                 }

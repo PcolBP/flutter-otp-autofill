@@ -26,10 +26,10 @@ class AppSignatureHelper(context: Context) : ContextWrapper(context) {
                     packageName,
                     PackageManager.GET_SIGNING_CERTIFICATES
                 ).signingInfo
-                if (signingInfo.hasMultipleSigners()) {
+                if (signingInfo?.hasMultipleSigners() == true) {
                     signingInfo.apkContentsSigners
                 } else {
-                    signingInfo.signingCertificateHistory
+                    signingInfo?.signingCertificateHistory
                 }
             } else {
                 @Suppress("DEPRECATION")
@@ -38,7 +38,7 @@ class AppSignatureHelper(context: Context) : ContextWrapper(context) {
                     PackageManager.GET_SIGNATURES
                 ).signatures
             }
-            signatures.mapNotNull { hash(packageName, it.toCharsString()) }
+            signatures?.mapNotNull { hash(packageName, it.toCharsString()) } ?: emptyList()
         } catch (e: PackageManager.NameNotFoundException) {
             emptyList()
         }
