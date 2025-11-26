@@ -192,4 +192,13 @@ class OTPTextEditController extends TextEditingController {
   void checkForComplete() {
     if (text.length == codeLength) onCodeReceive?.call(text);
   }
+
+  @override
+  void dispose() {
+    // Remove the listener added in constructor
+    removeListener(checkForComplete);
+    // Stop listening for OTP codes and unregister broadcast receivers
+    stopListen();
+    super.dispose();
+  }
 }
