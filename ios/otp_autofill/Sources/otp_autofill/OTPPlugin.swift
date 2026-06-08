@@ -1,10 +1,11 @@
 import Flutter
 import UIKit
 
-public class SwiftOTPPlugin: NSObject, FlutterPlugin {
+@objc(OTPPlugin)
+public class OTPPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "otp_surfstudio", binaryMessenger: registrar.messenger())
-    let instance = SwiftOTPPlugin()
+    let instance = OTPPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
