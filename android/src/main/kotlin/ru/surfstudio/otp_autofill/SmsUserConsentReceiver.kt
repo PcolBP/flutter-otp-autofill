@@ -17,15 +17,15 @@ class SmsUserConsentReceiver : BroadcastReceiver() {
         if (intent?.action == SmsRetriever.SMS_RETRIEVED_ACTION) {
 
             val extras = intent.extras
-            val smsRetrieverStatus = extras?.get(SmsRetriever.EXTRA_STATUS) as Status
+            val smsRetrieverStatus = extras?.get(SmsRetriever.EXTRA_STATUS) as? Status ?: return
 
             when (smsRetrieverStatus.statusCode) {
                 CommonStatusCodes.SUCCESS -> {
                     val consentIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        extras.getParcelable(SmsRetriever.EXTRA_CONSENT_INTENT, Intent::class.java)
+                        extras?.getParcelable(SmsRetriever.EXTRA_CONSENT_INTENT, Intent::class.java)
                     } else {
                         @Suppress("DEPRECATION")
-                        extras.getParcelable(SmsRetriever.EXTRA_CONSENT_INTENT)
+                        extras?.getParcelable(SmsRetriever.EXTRA_CONSENT_INTENT)
                     }
                     consentIntent?.also {
                         smsBroadcastReceiverListener.onSuccess(it)
